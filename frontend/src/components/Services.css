@@ -1,0 +1,283 @@
+.services-section {
+  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  overflow: hidden;
+}
+
+.services-glow {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 900px;
+  height: 600px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(227,39,27,0.14), transparent 65%);
+  pointer-events: none;
+}
+
+.plans-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1160px;
+  margin: 0 auto;
+  align-items: stretch;
+}
+
+.plan-reveal { display: flex; }
+
+.plan-card {
+  --mx: 50%;
+  --my: 0%;
+  --accent: var(--red-hot);
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 2.4rem 2rem 2rem;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+  border: 1px solid var(--line);
+  overflow: hidden;
+  transition: transform 0.5s var(--ease), border-color 0.4s, box-shadow 0.5s var(--ease);
+}
+
+.plan-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(227,39,27,0.45);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(227,39,27,0.15);
+}
+
+/* cursor spotlight */
+.plan-spot {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(380px circle at var(--mx) var(--my), rgba(227,39,27,0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.plan-card:hover .plan-spot { opacity: 1; }
+
+.plan-card > *:not(.plan-spot) { position: relative; }
+
+.plan-card.featured {
+  background: linear-gradient(170deg, rgba(227,39,27,0.2) 0%, rgba(176,28,18,0.06) 45%, rgba(255,255,255,0.02) 100%);
+  border-color: rgba(227,39,27,0.5);
+  box-shadow: 0 30px 80px rgba(227,39,27,0.18);
+  transform: scale(1.03);
+}
+
+.plan-card.featured:hover { transform: scale(1.03) translateY(-10px); }
+
+.plan-tag {
+  position: absolute !important;
+  top: 22px;
+  right: 22px;
+  background: var(--red-hot);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(227,39,27,0.4);
+}
+
+.plan-top { display: flex; flex-direction: column; gap: 6px; }
+
+.plan-index {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 3px;
+  color: var(--dim);
+}
+
+.plan-card h3 {
+  font-size: 2rem;
+  letter-spacing: 2px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.plan-price { display: flex; align-items: baseline; gap: 6px; }
+
+.price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  color: var(--text);
+  letter-spacing: 1px;
+  line-height: 0.9;
+}
+
+.plan-card.featured .price { color: #fff; text-shadow: 0 0 30px rgba(227,39,27,0.5); }
+
+.period { color: var(--dim); font-size: 0.88rem; }
+
+.plan-divider {
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+
+.plan-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+}
+
+.plan-card li {
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  background: rgba(227,39,27,0.12);
+  border: 1px solid rgba(227,39,27,0.3);
+}
+
+.plan-btn { width: 100%; margin-top: 0.5rem; }
+
+/* ── Premium (gold) ── */
+.plan-card.premium {
+  --accent: var(--gold);
+  background: linear-gradient(170deg, rgba(212,175,90,0.12) 0%, rgba(212,175,90,0.02) 50%, rgba(255,255,255,0.015) 100%);
+  border-color: transparent;
+}
+
+/* animated gold border */
+.plan-card.premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--angle, 0deg), rgba(212,175,90,0.2), var(--gold-2), rgba(212,175,90,0.2) 30%, rgba(212,175,90,0.2) 70%, var(--gold), rgba(212,175,90,0.2));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: goldSpin 6s linear infinite;
+  pointer-events: none;
+}
+
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes goldSpin { to { --angle: 360deg; } }
+
+.plan-card.premium .plan-spot { background: radial-gradient(380px circle at var(--mx) var(--my), rgba(212,175,90,0.16), transparent 60%); }
+
+.plan-card.premium:hover { box-shadow: 0 30px 70px rgba(0,0,0,0.5), 0 0 60px rgba(212,175,90,0.15); }
+
+.plan-card.premium .price {
+  color: transparent;
+  background: linear-gradient(100deg, var(--gold) 0%, var(--gold-2) 50%, var(--gold) 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: sheen 4s ease-in-out infinite;
+}
+
+.plan-card.premium .check { background: rgba(212,175,90,0.12); border-color: rgba(212,175,90,0.35); }
+
+.plan-card.premium .plan-tag {
+  background: linear-gradient(90deg, var(--gold), var(--gold-2));
+  color: var(--ink);
+  box-shadow: 0 6px 18px rgba(212,175,90,0.35);
+}
+
+.plan-card.premium .btn-outline { border-color: rgba(212,175,90,0.45); color: var(--gold-2); }
+.plan-card.premium .btn-outline:hover { background: linear-gradient(90deg, var(--gold), var(--gold-2)); color: var(--ink); border-color: var(--gold); }
+
+.plans-cta {
+  position: relative;
+  text-align: center;
+  margin-top: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plans-cta p { color: var(--muted); font-size: 0.95rem; }
+
+/* ── Video Explainer (dark) ── */
+.ve-wrap { border-top: 1px solid var(--line); margin-top: auto; padding-top: 1rem; }
+
+.ve-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.ve-toggle:hover { border-color: var(--red-hot); background: rgba(227,39,27,0.08); }
+.ve-toggle-icon { font-size: 0.6rem; color: var(--red-hot); }
+.ve-badge { margin-left: auto; background: var(--red-hot); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+
+.ve-panel { margin-top: 0.75rem; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.ve-list { display: flex; flex-direction: column; max-height: 220px; overflow-y: auto; }
+
+.ve-item {
+  display: flex; align-items: center; gap: 10px;
+  background: none; border: none; border-bottom: 1px solid var(--line);
+  padding: 9px 14px; font-family: 'Inter', sans-serif; font-size: 0.82rem; font-weight: 500;
+  color: var(--muted); cursor: pointer; text-align: left;
+}
+.ve-item:last-child { border-bottom: none; }
+.ve-item:hover { background: rgba(255,255,255,0.04); color: var(--text); }
+.ve-item.active { background: var(--red-hot); color: #fff; }
+.ve-num { font-size: 0.75rem; color: var(--dim); font-family: 'Bebas Neue', sans-serif; letter-spacing: 1px; }
+.ve-item.active .ve-num { color: rgba(255,255,255,0.75); }
+
+.ve-videos { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
+.ve-video-btn {
+  display: flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 8px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+  color: var(--text); background: rgba(255,255,255,0.03); border-right: 1px solid var(--line);
+}
+.ve-video-btn:last-child { border-right: none; }
+.ve-video-btn:hover { background: var(--red-hot); }
+.ve-play { font-size: 0.6rem; color: var(--red-hot); }
+.ve-video-btn:hover .ve-play { color: #fff; }
+
+/* ── Responsive ── */
+@media (max-width: 1000px) {
+  .plans-grid { grid-template-columns: 1fr; max-width: 460px; }
+  .plan-card.featured, .plan-card.featured:hover { transform: none; }
+  .plan-card.featured:hover { transform: translateY(-6px); }
+}
+
+@media (max-width: 480px) {
+  .plan-card { padding: 2rem 1.4rem 1.6rem; }
+  .price { font-size: 3.3rem; }
+}
