@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Serve real files and folders (JS, CSS, images, videos) as-is
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Everything else (/admin, /login, /share-card, /fitness-tracker…) → React app
+  RewriteRule ^ index.html [L]
+</IfModule>
