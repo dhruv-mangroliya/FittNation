@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 export default function Login() {
   const { user, loading } = useAuth();

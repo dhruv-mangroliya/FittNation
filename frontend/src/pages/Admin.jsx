@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Admin.css';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 const PLANS = ['Monthly', '6 Months', 'Annual'];
 
 function BranchSelect({ branches, value, onChange, required }) {

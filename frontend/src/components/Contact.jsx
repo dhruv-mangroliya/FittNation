@@ -3,7 +3,7 @@ import './Contact.css';
 import Reveal from './Reveal';
 import { Mail, Phone, Clock, Arrow, Dumbbell } from './Icons';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });

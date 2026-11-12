@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 import logoImg from '/fittnation logo.jpg';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 export default function Navbar({ onBranchSelect }) {
   const { user, logout } = useAuth();

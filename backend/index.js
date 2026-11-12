@@ -48,6 +48,12 @@ const BRANCH_SEEDS = [
 const app  = express();
 const PORT = process.env.PORT || 5001;
 
+// Trailing slashes in env URLs break CORS matching and produce "//" paths.
+const trimUrl = (u) => (u || '').trim().replace(/\/+$/, '');
+process.env.FRONTEND_ORIGIN = trimUrl(process.env.FRONTEND_ORIGIN);
+const SERVER_URL = trimUrl(process.env.SERVER_URL) || `http://localhost:${PORT}`;
+const IS_HTTPS   = SERVER_URL.startsWith('https://');
+
 // ── MongoDB ──────────────────────────────────────────────
 mongoose.connect(process.env.MONGODB_URI)
   .then(async () => {
@@ -59,6 +65,8 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch((e) => console.error('MongoDB error:', e));
 
 // ── Middleware ───────────────────────────────────────────
+// Hosting platforms sit behind a proxy; needed for secure cookies.
+app.set('trust proxy', 1);
 app.use(cors({
   origin: process.env.FRONTEND_ORIGIN,
   credentials: true,
@@ -70,7 +78,13 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }),
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }, // 7 days
+  cookie: {
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    // Frontend and backend are on different domains in production,
+    // so the session cookie must be cross-site (requires HTTPS).
+    secure:   IS_HTTPS,
+    sameSite: IS_HTTPS ? 'none' : 'lax',
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -79,7 +93,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
   clientID:     process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL:  `http://localhost:${PORT}/auth/google/callback`,
+  callbackURL:  `${SERVER_URL}/auth/google/callback`,
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     const email = profile.emails[0].value;

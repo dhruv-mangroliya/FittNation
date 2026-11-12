@@ -5,7 +5,7 @@ import TrackerNavbar from '../components/TrackerNavbar';
 import './FitnessTracker.css';
 import ShareStudio from '../share/ShareStudio';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 // Recharts theme for the dark dashboard
 const CHART = {

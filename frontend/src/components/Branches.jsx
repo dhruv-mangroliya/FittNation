@@ -3,7 +3,7 @@ import './Branches.css';
 import Reveal from './Reveal';
 import { Pin, Phone, Clock, ArrowUpRight } from './Icons';
 
-const API = import.meta.env.VITE_API_BASE_URL;
+const API = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 function isOpenNow() {
   const now = new Date();
